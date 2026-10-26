@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 700" preserveAspectRatio="xMidYMax slice">
+  <rect width="1600" height="700" fill="#18263d"/>
+  <circle cx="1260" cy="170" r="54" fill="#efe6cf"/>
+  <circle cx="1284" cy="156" r="54" fill="#18263d"/>
+  <g fill="#c9d3e3">
+    <circle cx="220" cy="120" r="3"/><circle cx="420" cy="80" r="2"/><circle cx="610" cy="150" r="3"/>
+    <circle cx="830" cy="90" r="2"/><circle cx="1010" cy="140" r="3"/><circle cx="1480" cy="110" r="2"/>
+    <circle cx="1120" cy="60" r="2"/><circle cx="90" cy="200" r="2"/>
+  </g>
+  <polygon fill="#22395a" points="0,470 200,380 380,450 560,360 760,460 960,380 1160,470 1360,390 1600,460 1600,700 0,700"/>
+  <path fill="#1e3b30" d="M0 560 C 300 500 600 520 900 560 C 1150 592 1400 540 1600 550 L1600 700 L0 700 Z"/>
+  <g transform="translate(1080 470)">
+    <polygon fill="#7a3e2e" points="0,60 70,0 140,60"/>
+    <rect x="12" y="60" width="116" height="80" fill="#a85a3f"/>
+    <rect x="36" y="82" width="28" height="26" fill="#f2c66d"/>
+    <rect x="84" y="92" width="26" height="48" fill="#5b2f22"/>
+  </g>
+  <g fill="#14302a">
+    <polygon points="980,600 1006,520 1032,600"/>
+    <polygon points="1260,600 1290,500 1320,600"/>
+    <polygon points="1310,606 1334,540 1358,606"/>
+  </g>
+</svg>
