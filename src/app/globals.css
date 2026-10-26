@@ -17,6 +17,8 @@
   --color-accent-soft: #e3ecf8;
   --color-success: #1b7a4b;
   --color-danger: #b42318;
+  --color-danger-soft: #fbe9e7;
+  --color-danger-softer: #f6d5d1;
 
   --radius-card: 1rem;
 }

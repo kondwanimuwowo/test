@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { BUCKET, getSupabaseAdmin } from "@/lib/supabase-server";
+import { getCurrentUser } from "@/lib/auth";
 import { isUuid } from "@/lib/validation";
 
 export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -14,16 +15,16 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     return NextResponse.json({ error: "Invalid id." }, { status: 400 });
   }
 
-  const { data: row } = await supabase
-    .from("compressions")
-    .select("storage_path")
-    .eq("id", id)
-    .eq("client_id", clientId)
-    .maybeSingle();
+  const current = await getCurrentUser();
+  const base = supabase.from("compressions").select("storage_path").eq("id", id);
+  const { data: row } = await (current
+    ? base.eq("user_id", current.user.id)
+    : base.eq("client_id", clientId).is("user_id", null)
+  ).maybeSingle();
   if (!row) return NextResponse.json({ error: "Not found." }, { status: 404 });
 
   await supabase.storage.from(BUCKET).remove([row.storage_path]);
-  await supabase.from("compressions").delete().eq("id", id).eq("client_id", clientId);
+  await supabase.from("compressions").delete().eq("id", id);
 
   return new NextResponse(null, { status: 204 });
 }

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { BUCKET, getSupabaseAdmin } from "@/lib/supabase-server";
+import { getCurrentUser } from "@/lib/auth";
 import { isUuid } from "@/lib/validation";
 import type { LibraryItem } from "@/lib/types";
 
@@ -14,10 +15,12 @@ export async function GET(request: Request) {
   const clientId = new URL(request.url).searchParams.get("clientId");
   if (!isUuid(clientId)) return NextResponse.json({ error: "Invalid client id." }, { status: 400 });
 
-  const { data: rows, error } = await supabase
-    .from("compressions")
-    .select("*")
-    .eq("client_id", clientId)
+  // Signed-in people see everything saved to their account. Visitors see what this browser saved anonymously.
+  const current = await getCurrentUser();
+  const base = supabase.from("compressions").select("*");
+  const scoped = current ? base.eq("user_id", current.user.id) : base.eq("client_id", clientId).is("user_id", null);
+
+  const { data: rows, error } = await scoped
     .order("created_at", { ascending: false })
     .limit(60);
   if (error) return NextResponse.json({ error: "Could not load your library." }, { status: 500 });
