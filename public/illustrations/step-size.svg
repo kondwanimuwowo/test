@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 800 500">
+  <defs><symbol id="p" viewBox="0 0 200 150"><rect width="200" height="150" fill="#ffffff"/><rect x="10" y="10" width="180" height="130" fill="#a8c5e2"/><circle cx="150" cy="45" r="16" fill="#f2c66d"/><polygon fill="#4d72a0" points="10,140 10,110 60,64 100,104 128,80 190,128 190,140"/><polygon fill="#2e6b4f" points="10,140 10,124 80,112 190,132 190,140"/></symbol></defs>
+  <rect width="800" height="500" fill="#dce7f3"/>
+  <use href="#p" x="90" y="110" width="360" height="270"/>
+  <polygon fill="#1d4f91" points="480,232 560,232 560,206 612,250 560,294 560,268 480,268"/>
+  <use href="#p" x="630" y="200" width="120" height="90"/>
+</svg>

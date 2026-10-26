@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 800 500">
+  <defs><symbol id="p" viewBox="0 0 200 150"><rect width="200" height="150" fill="#ffffff"/><rect x="10" y="10" width="180" height="130" fill="#a8c5e2"/><circle cx="150" cy="45" r="16" fill="#f2c66d"/><polygon fill="#4d72a0" points="10,140 10,110 60,64 100,104 128,80 190,128 190,140"/><polygon fill="#2e6b4f" points="10,140 10,124 80,112 190,132 190,140"/></symbol></defs>
+  <rect width="800" height="500" fill="#f6ddd3"/>
+  <rect x="300" y="60" width="200" height="380" rx="28" fill="#1f2a3a"/>
+  <rect x="316" y="96" width="168" height="308" fill="#f7f9fc"/>
+  <use href="#p" x="328" y="130" width="144" height="108"/>
+  <rect x="340" y="262" width="120" height="12" fill="#c9d3e3"/>
+  <rect x="340" y="284" width="80" height="12" fill="#c9d3e3"/>
+  <rect x="340" y="340" width="120" height="36" rx="18" fill="#1d4f91"/>
+  <polygon fill="#ffffff" points="392,350 408,350 408,358 416,358 400,370 384,358 392,358"/>
+</svg>
