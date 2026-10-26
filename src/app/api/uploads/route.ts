@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { BUCKET, getSupabaseAdmin } from "@/lib/supabase-server";
+import { getCurrentUser } from "@/lib/auth";
+import { getAppSettings } from "@/lib/settings";
 import { ALLOWED_TYPES, MAX_UPLOAD_BYTES, cleanFileName, isPositiveInt, isUuid } from "@/lib/validation";
 
 const EXT: Record<string, string> = { "image/jpeg": "jpg", "image/webp": "webp", "image/png": "png" };
@@ -12,6 +14,16 @@ export async function POST(request: Request) {
   const supabase = getSupabaseAdmin();
   if (!supabase) {
     return NextResponse.json({ error: "Saving is not configured on this server." }, { status: 503 });
+  }
+
+  const settings = await getAppSettings(supabase);
+  if (!settings.saving_enabled) {
+    return NextResponse.json({ error: "Saving is turned off right now." }, { status: 403 });
+  }
+
+  const current = await getCurrentUser();
+  if (current?.profile?.status === "suspended") {
+    return NextResponse.json({ error: "This account is suspended." }, { status: 403 });
   }
 
   let body: Record<string, unknown>;
@@ -27,8 +39,12 @@ export async function POST(request: Request) {
   if (typeof format !== "string" || !ALLOWED_TYPES.includes(format as (typeof ALLOWED_TYPES)[number])) {
     return NextResponse.json({ error: "Unsupported format." }, { status: 400 });
   }
-  if (!isPositiveInt(originalSize) || !isPositiveInt(compressedSize, MAX_UPLOAD_BYTES)) {
-    return NextResponse.json({ error: "Invalid file size. The limit is 25 MB." }, { status: 400 });
+  const maxBytes = Math.min(settings.max_upload_mb * 1024 * 1024, MAX_UPLOAD_BYTES);
+  if (!isPositiveInt(originalSize) || !isPositiveInt(compressedSize, maxBytes)) {
+    return NextResponse.json(
+      { error: `Invalid file size. The limit is ${settings.max_upload_mb} MB.` },
+      { status: 400 },
+    );
   }
   if (![originalWidth, originalHeight, width, height].every((n) => isPositiveInt(n, MAX_SIDE))) {
     return NextResponse.json({ error: "Invalid dimensions." }, { status: 400 });
@@ -45,6 +61,7 @@ export async function POST(request: Request) {
   const { error: insertError } = await supabase.from("compressions").insert({
     id,
     client_id: clientId,
+    user_id: current?.user.id ?? null,
     file_name: cleanFileName(body.fileName),
     format,
     original_size: originalSize,
